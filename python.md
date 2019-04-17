@@ -6,7 +6,7 @@
 Для выполнения скрипта из консоли используйте команду `python script_name.py`. Если на вашем компьютере установлено две версии Python (2.x и 3.x), нужно указать нужную версию: `python3 script_name.py`. Для установки необходимых библиотек используйте команду `pip install lib_name`. Если вы хотите подключить свой скрипт `sctipt_name.py` к другому скрипту, если они лежат в одной папке, используйте команду `import scrtipt_name`. Если хотите создать подключаемую библиотеку, нужно в папке с этой библиотекой создать файл `__init__.py`. Тогда подключение скрипта с адресом `package/script.py` будет выглядеть так: `import package`.
 Для разработки можно также воспользоваться PyCharm IDE, Visual Studio, Jupyter Notebook или Kaggle Notebook на kaggle.com (требуется регистрация).
 
-Так же для работы над курсом математического моделирования вам понадобятся библиотеки *numpy*, *scipy* и *matplotlib*. Далее в тексте используются сокращения:
+Так же для работы над курсом нейронных сетей вам понадобятся библиотеки *numpy*, *scipy*, *matplotlib*, *pandas* и *sklearn* . Далее в тексте используются сокращения:
 
 ```python
 import numpy as np #библиотека для математических вычислений и работы с массивами
@@ -74,6 +74,13 @@ from mpl_toolkits import mplot3d #библиотека для трехмерно
   y = f'x = {x}' # 'x = 5'
   ```
 
+  * можно комбинировать несколько различных видов кавычек
+
+  ```python
+  x = """level1 '''level2 " level3 'level4' level3" level2''' level1"""
+  ```
+
+
 * Кортеж *tuple*
 
   * `x = (1, 2)`
@@ -84,15 +91,15 @@ from mpl_toolkits import mplot3d #библиотека для трехмерно
 
   * `x = [ [0, 1, 2], [3, 4, 5], [6, 7, 8] ]` - альтернатива двухмерному массиву 3x3
 
-* массив *numpy.ndarray*
+* массив *numpy.array*
 
   ```python
-  >>> np.ndarray([1, 2, 3.0])
+  >>> np.array([1, 2, 3.0])
   array([ 1.,  2.,  3.])
   ```
 
   ```python
-  >>> np.ndarray([[1, 2], [3, 4]])
+  >>> np.array([[1, 2], [3, 4]])
   array([[1, 2],
         [3, 4]])
   ```
@@ -251,9 +258,9 @@ Python поддерживает следующие операции:
 
   * `np.complex(A, B)` - комплексная матрица A + Bj
 
-  * `np.real(A)` - действительная часть
+  * `np.real(a)` - действительная часть
 
-  * `np.imag(B)` - мнимая часть
+  * `np.imag(a)` - мнимая часть
 
   * `np.angle(a, deg=True)` - угол комплексного числа на плоскости
 
@@ -541,19 +548,22 @@ stime += time()
 print(stime)
 ```
 
+В Jupyter Notebook:
+
+`%%time` в начале ячейки
+
 ## Работа с данными в Pandas
 
 file.csv:
 
-```python
-a,b,c,d
-1,2,3,4
-5,6,7,8
-9,10,11,12
-13,14,15,16
-```
+|a|b|c|d|
+|--- | --- | ---| ---|
+|1|2|3|4|
+|5|6|7|8|
+|9|10|11|12|
+|13|14|15|16|
 
-Загрузить данные из CSV-файла. Есть также функции для загрузки файлов Excel, таблиц SQL. Будет возвращен класс `pd.DataFrame`
+Загрузить данные из CSV-файла. Есть также функции для загрузки файлов Excel, таблиц SQL. Будет возвращен класс `pandas.DataFrame`
 
 ```python
 df = pd.read_csv('file.csv')
@@ -577,7 +587,7 @@ df = pd.read_csv('file.csv')
 
 `df.corrwith(other_df)` - найдет корреляцию с другим DataFrame
 
-У класса DataFrame есть методы `sum(), count(), median(), apply(function), min(), max(), mean(), var(), std()` которые применяются к каждому столбцу данных
+У класса `pandas.DataFrame` есть методы `sum(), count(), median(), apply(function), min(), max(), mean(), var(), std()` которые применяются к каждому столбцу данных
 
 ## Построение моделей в Scikit-Learn
 
@@ -676,11 +686,71 @@ y_pred = gnb.predict(X_test)
 
 ### Метрики
 
+* Точность классификации `sk.metrics.accuracy_score(y_test, y_pred)`
+
+* Матрица ошибок `sk.metrics.confusion_matrix(y_test, y_pred)`
+
 * Средняя абсолютная ошибка `sk.metrics.mean_absolute_error(y_test, y_pred)`
 
 * Средняя квадратичная ошибка `sk.metrics.mean_squared_error(y_test, y_pred)`
 
-* R^2 `sk.metrics.r2_score(y_test, y_pred)`
+### Сохранение обученной модели
+
+Сохранить модель:
+
+```python
+sk.externals.joblib.dump(
+                      model, #обученная с помощью метода fit модель
+                      filename #название файла
+                      )
+```
+
+Загрузить модель:
+
+```python
+model = sk.externals.joblib.load(filename)
+```
+
+## Работа в Jupyter Notebook
+
+### Горячие клавиши
+
+* `Shift+Enter` — выполнение текущей ячейки и перевод фокуса на следующую
+
+* `Ctrl+Enter` — выполнение текущей ячейки и сохранение фокуса на текущей ячейке
+
+* `Alt+Enter` — выполнение текущей ячейки и перевод фокуса на новую ячейку созданную ниже
+
+* `Shift+Tab` - вызов документации
+
+* `Alt + LMB` - мультикурсор
+
+* `Y` - ячейка с кодом
+
+* `M` - ячейка с Markdown
+
+* `R` - ячейка для обычного текста
+
+### Специальные символы и команды
+
+* `function_name?` - вызов документации к функции function_name
+
+* `!command` - запуск команды command в командной строке
+
+* `%run script` - запуск внешнего скрипта c адресом script
+
+* `%load script` - вставка кода из внешнего скрипта c адресом script
+
+* `%%writefile file` - записывает содержимое ячейки в файл file
+
+* `%pycat file` - выводит содержимое файла file в ячейку
+
+* `function();` - запрещает вывод результата функции
+
+### Markdown
+
+Доступны все возможности обычного Markdown, также можно добавлять LaTeX, который должен быть помещен между `$`:
+`$e^{i\pi} + 1 = 0$`
 
 ## Ссылки
 
@@ -697,3 +767,5 @@ y_pred = gnb.predict(X_test)
 * https://pandas.pydata.org/ - документация по Pandas
 
 * https://scikit-learn.org/ - документация по Scikit-Learn
+
+* https://jupyter-notebook.readthedocs.io/ - документация по Jupyter Notebook
