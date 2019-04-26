@@ -307,6 +307,12 @@ else:
     statements
 ```
 
+Поддерживаются также двойные условия:
+```python
+if a < b < c:
+    statements
+```
+
 * Цикл for:
 
 ```python
